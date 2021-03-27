@@ -2803,20 +2803,20 @@ MonoBehaviour:
   menu: {fileID: 433826078}
   nameText:
   - {fileID: 876011125}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2581830010562311585}
+  - {fileID: 4528999639779181616}
   hpText:
   - {fileID: 1720885027}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7989934468350043659}
+  - {fileID: 2413807262900911398}
   mpText:
   - {fileID: 973604768}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 281053975218836763}
+  - {fileID: 4689448503790885280}
   levelText:
   - {fileID: 746974919}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3539510787411921830}
+  - {fileID: 6699005760444288874}
   xpText:
   - {fileID: 1339026241374640785}
   - {fileID: 9139230744954440933}
@@ -3405,7 +3405,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: P1 Name
+  m_Text: P2 Name
 --- !u!1 &4129040361781105822
 GameObject:
   m_ObjectHideFlags: 0
@@ -3763,7 +3763,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: P1 Name
+  m_Text: P3 Name
 --- !u!1 &5674632133512532558
 GameObject:
   m_ObjectHideFlags: 0
