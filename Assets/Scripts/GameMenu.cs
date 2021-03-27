@@ -24,7 +24,7 @@ public class GameMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2")) 
         {
             if (menu.activeInHierarchy)
             {
@@ -42,5 +42,23 @@ public class GameMenu : MonoBehaviour
     public void UpdateMainStats()
     {
         playerStats = GameManager.instance.playersStats;
+        for (int i = 0; i < playerStats.Length; i++)
+        {
+            if (playerStats[i].gameObject.activeInHierarchy)
+            {
+                charStatHolder[i].SetActive(true);
+                nameText[i].text = playerStats[i].charName;
+                hpText[i].text = $"HP: {playerStats[i].currentHp}/{playerStats[i].maxHp} ";
+                mpText[i].text = $"MP: {playerStats[i].currentMp}/{playerStats[i].maxMp} ";
+                levelText[i].text = $"Level: {playerStats[i].playerLevel}";
+                xpText[i].text = $"{playerStats[i].currentExp}/{playerStats[i].expToNextLevel[playerStats[i].playerLevel]}";
+                xpSlider[i].maxValue = playerStats[i].expToNextLevel[playerStats[i].playerLevel];
+                xpSlider[i].value = playerStats[i].currentExp;
+                charImage[i].sprite = playerStats[i].characterImage;
+            } else
+            {
+                charStatHolder[i].SetActive(false);
+            }
+        }
     }
 }
