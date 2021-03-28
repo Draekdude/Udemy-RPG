@@ -22,6 +22,8 @@ public class GameMenu : MonoBehaviour
     public GameObject playerStatLabels;
     public Image statusImage;
 
+    public List<ItemButton> itemButtons;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -110,5 +112,28 @@ public class GameMenu : MonoBehaviour
             
         }
         UpdatePlayerStats(0);
+    }
+
+    public void LoadItems()
+    {
+        GameManager.instance.SortItems();
+        int index = 0;
+        itemButtons.ForEach(i => SetUpButton(index++, i));
+    }
+
+    public ItemButton SetUpButton(int index, ItemButton itemButton)
+    {
+        if (GameManager.instance.itemsHeld[index] != "")
+        {
+            itemButton.buttonImage.gameObject.SetActive(true);
+            Item foundItem = GameManager.instance.GetItemDetails(GameManager.instance.itemsHeld[index]);
+            itemButton.buttonImage.sprite = foundItem.itemSprite;
+            itemButton.amountText.text = GameManager.instance.itemsInventory[index].ToString();
+        } else
+        {
+            itemButton.buttonImage.gameObject.SetActive(false);
+            itemButton.amountText.text = "";
+        }
+        return itemButton;
     }
 }

@@ -100,7 +100,7 @@ MonoBehaviour:
   itemName: Leather Armor
   description: Leather Armor
   value: 10
-  image: {fileID: 21300010, guid: 0bc4ed27aef38a44bb72e80f9beb5326, type: 3}
+  itemSprite: {fileID: 21300010, guid: 0bc4ed27aef38a44bb72e80f9beb5326, type: 3}
   amountToChange: 20
   affectHp: 0
   affectMp: 0

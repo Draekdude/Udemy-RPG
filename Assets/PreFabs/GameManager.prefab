@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1108732548
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1108732549}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1108732549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108732548}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4362758264042457387}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4362758263214386132
 GameObject:
   m_ObjectHideFlags: 0
@@ -49,10 +79,10 @@ MonoBehaviour:
   expToNextLevel: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   maxLevel: 10
   baseExp: 1000
-  currentHp: 0
+  currentHp: 50
   maxHp: 101
   currentMp: 29
-  maxMp: 0
+  maxMp: 30
   mpLevelBonus: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   strength: 15
   defense: 12
@@ -92,6 +122,7 @@ Transform:
   - {fileID: 4362758264259967227}
   - {fileID: 4362758265165357323}
   - {fileID: 4362758263214386133}
+  - {fileID: 1108732549}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -111,6 +142,16 @@ MonoBehaviour:
   - {fileID: 4362758264259967226}
   - {fileID: 4362758265165357332}
   - {fileID: 4362758263214386134}
+  gameMenuOpen: 0
+  dialogActive: 0
+  fadingBetweenAreas: 0
+  referenceItems:
+  - {fileID: 4922039782001738897, guid: 814633b1bafceac4fba0c29f4dc20ce9, type: 3}
+  - {fileID: 5354200821736635047, guid: 4d5226346b885b149b89d93e904f01c1, type: 3}
+  - {fileID: 1203466417198202001, guid: b6ad6faf808f833419f401958bb423b8, type: 3}
+  - {fileID: 7228136262713241538, guid: 33866c1c43401164f9a0b09d18c697ba, type: 3}
+  - {fileID: 1746565940764786032, guid: b4253aaca7d49c44d8e84436b6c9c4c6, type: 3}
+  - {fileID: 8426547866752825678, guid: fc6cff3374668064a9ca0bc39fd79094, type: 3}
 --- !u!1 &4362758264259967225
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,10 +201,10 @@ MonoBehaviour:
   expToNextLevel: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   maxLevel: 10
   baseExp: 1000
-  currentHp: 0
+  currentHp: 1
   maxHp: 100
   currentMp: 30
-  maxMp: 0
+  maxMp: 30
   mpLevelBonus: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   strength: 15
   defense: 12
@@ -222,10 +263,10 @@ MonoBehaviour:
   expToNextLevel: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   maxLevel: 10
   baseExp: 1000
-  currentHp: 0
+  currentHp: 24
   maxHp: 101
   currentMp: 29
-  maxMp: 0
+  maxMp: 30
   mpLevelBonus: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   strength: 15
   defense: 12

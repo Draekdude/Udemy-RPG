@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
     public string itemName;
     public string description;
     public int value;
-    public Sprite image;
+    public Sprite itemSprite;
 
     [Header("Item Effects")]
     public int amountToChange;

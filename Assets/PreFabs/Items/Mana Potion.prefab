@@ -100,7 +100,7 @@ MonoBehaviour:
   itemName: Mana Potion
   description: Gives Player 50 MP
   value: 5
-  image: {fileID: 21300004, guid: 0bc4ed27aef38a44bb72e80f9beb5326, type: 3}
+  itemSprite: {fileID: 21300004, guid: 0bc4ed27aef38a44bb72e80f9beb5326, type: 3}
   amountToChange: 50
   affectHp: 0
   affectMp: 1
