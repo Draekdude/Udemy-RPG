@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     public bool dialogActive;
     public bool fadingBetweenAreas;
 
-    public string[] itemsHeld;
-    public int[] itemsInventory;
+    public List<string> itemsHeld;
+    public List<int> itemsInventory;
     public List<Item> referenceItems;
 
     // Start is called before the first frame update
@@ -33,6 +33,16 @@ public class GameManager : MonoBehaviour
         {
             PlayerController.instance.canMove = true;
         }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            AddItem("Iron Armor");
+            AddItem("TEST");
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            RemoveItem("Iron Armor");
+            RemoveItem("TEST");
+        }
     }
 
     public Item GetItemDetails(string itemName)
@@ -46,7 +56,7 @@ public class GameManager : MonoBehaviour
         while (itemAfterSpace)
         {
             itemAfterSpace = false;
-            for (int i = 0; i < itemsHeld.Length - 1; i++)
+            for (int i = 0; i < itemsHeld.Count - 1; i++)
             {
                 if (itemsHeld[i] == "" )
                 {
@@ -61,5 +71,42 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void AddItem(string newItemName) 
+    {
+        var foundItemIndex = itemsHeld.FindIndex(i => i == newItemName || i == "");
+        if (foundItemIndex > -1)
+        {
+            if (referenceItems.Find(i => i.itemName == newItemName))
+            {
+                itemsHeld[foundItemIndex] = newItemName;
+                itemsInventory[foundItemIndex]++;
+            } else {
+                Debug.LogError($"{newItemName} - is invalid item");
+            }
+        }
+        GameMenu.instance.LoadItems();
+    }
+
+    public void RemoveItem(string newItemName)
+    {
+        var foundItemIndex = itemsHeld.FindIndex(i => i == newItemName);
+        if (foundItemIndex > -1)
+        {
+            if (referenceItems.Find(i => i.itemName == newItemName))
+            {
+                if (itemsInventory[foundItemIndex] == 1)
+                {
+                    itemsHeld[foundItemIndex] = "";
+                }
+                itemsInventory[foundItemIndex]++;
+            }
+            else
+            {
+                Debug.LogError($"{newItemName} - is invalid item");
+            }
+        }
+        GameMenu.instance.LoadItems();
     }
 }

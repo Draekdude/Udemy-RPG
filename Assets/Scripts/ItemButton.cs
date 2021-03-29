@@ -20,4 +20,14 @@ public class ItemButton : MonoBehaviour
     {
         
     }
+
+    public void Press()
+    {
+        if (GameManager.instance.itemsHeld[buttonValue] != "")
+        {
+            var itemName = GameManager.instance.itemsHeld[buttonValue];
+            var item = GameManager.instance.GetItemDetails(itemName);
+            GameMenu.instance.SelectItem(item);
+        }
+    }
 }

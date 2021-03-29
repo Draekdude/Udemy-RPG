@@ -23,11 +23,16 @@ public class GameMenu : MonoBehaviour
     public Image statusImage;
 
     public List<ItemButton> itemButtons;
+    public string selectedItem;
+    public Item activeItem;
+    public Text itemName, itemDesc, useButtonText;
+
+    public static GameMenu instance;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        instance = this;
     }
 
     // Update is called once per frame
@@ -129,11 +134,28 @@ public class GameMenu : MonoBehaviour
             Item foundItem = GameManager.instance.GetItemDetails(GameManager.instance.itemsHeld[index]);
             itemButton.buttonImage.sprite = foundItem.itemSprite;
             itemButton.amountText.text = GameManager.instance.itemsInventory[index].ToString();
+            itemButton.buttonValue = index;
         } else
         {
             itemButton.buttonImage.gameObject.SetActive(false);
             itemButton.amountText.text = "";
         }
         return itemButton;
+    }
+
+    public void SelectItem(Item item)
+    {
+        activeItem = item;
+        if (item.isItem)
+        {
+            useButtonText.text = "Use";
+        } else if (item.isWeapon || item.isArmor)
+        {
+            useButtonText.text = "Equip";
+        }
+
+        itemName.text = activeItem.itemName;
+        itemDesc.text = activeItem.description;
+
     }
 }
