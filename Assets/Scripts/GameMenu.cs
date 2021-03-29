@@ -27,6 +27,9 @@ public class GameMenu : MonoBehaviour
     public Item activeItem;
     public Text itemName, itemDesc, useButtonText;
 
+    public GameObject itemCharChoiceMenu;
+    public List<Text> itemCharChoiceNames;
+
     public static GameMenu instance;
 
     // Start is called before the first frame update
@@ -85,8 +88,8 @@ public class GameMenu : MonoBehaviour
         textValueFields.SingleOrDefault(item => item.name == "MP").text = $"{playerStats[playerIndex].currentMp}/{playerStats[playerIndex].maxMp}";
         textValueFields.SingleOrDefault(item => item.name == "Strength").text = playerStats[playerIndex].strength.ToString();
         textValueFields.SingleOrDefault(item => item.name == "Defence").text = playerStats[playerIndex].defense.ToString();
-        textValueFields.SingleOrDefault(item => item.name == "EquippedWeapon").text = playerStats[playerIndex].equippedWeapon == null ? playerStats[playerIndex].equippedWeapon : "None";
-        textValueFields.SingleOrDefault(item => item.name == "EquippedArmor").text = playerStats[playerIndex].equippedArmor == null ? playerStats[playerIndex].equippedArmor : "None";
+        textValueFields.SingleOrDefault(item => item.name == "EquippedWeapon").text = playerStats[playerIndex].equippedWeapon != "" ? playerStats[playerIndex].equippedWeapon : "None";
+        textValueFields.SingleOrDefault(item => item.name == "EquippedArmor").text = playerStats[playerIndex].equippedArmor != "" ? playerStats[playerIndex].equippedArmor : "None";
         textValueFields.SingleOrDefault(item => item.name == "ArmorPower").text = playerStats[playerIndex].armorPower.ToString();
         textValueFields.SingleOrDefault(item => item.name == "XpToNextLevel").text = $"{playerStats[playerIndex].expToNextLevel[playerStats[playerIndex].playerLevel] - playerStats[playerIndex].currentExp}";
         statusImage.sprite = playerStats[playerIndex].characterImage;
@@ -98,6 +101,7 @@ public class GameMenu : MonoBehaviour
         bool isActive = windows[windowIndex].activeInHierarchy;
         windows.ForEach(w => w.SetActive(false));
         windows[windowIndex].SetActive(!isActive);
+        itemCharChoiceMenu.SetActive(false);
     }
 
     public void CloseMenu()
@@ -105,6 +109,7 @@ public class GameMenu : MonoBehaviour
         windows.ForEach(w => w.SetActive(false));
         menu.SetActive(false);
         GameManager.instance.gameMenuOpen = false;
+        itemCharChoiceMenu.SetActive(false);
     }
 
     public void OpenStatus()
@@ -157,5 +162,38 @@ public class GameMenu : MonoBehaviour
         itemName.text = activeItem.itemName;
         itemDesc.text = activeItem.description;
 
+    }
+
+    public void DiscardItem()
+    {
+        if (activeItem != null)
+        {
+            GameManager.instance.RemoveItem(activeItem.itemName);
+        }
+    }
+
+    public void OpenItemCharChoice()
+    {
+        itemCharChoiceMenu.SetActive(true);
+        int index = 0;
+        itemCharChoiceNames.ForEach(i => UpdateItemCharChoice(index++, i));
+    }
+
+    public void UpdateItemCharChoice(int index, Text itemText)
+    {
+        itemText.text = GameManager.instance.playersStats[index].charName;
+        bool isActive = GameManager.instance.playersStats[index].gameObject.activeInHierarchy;
+        itemText.transform.parent.gameObject.SetActive(isActive);
+    }
+
+    public void CloseItemCharChoice()
+    {
+        itemCharChoiceMenu.SetActive(false);
+    }
+
+    public void UseItem(int selectChar)
+    {
+        activeItem.Use(selectChar);
+        CloseItemCharChoice();
     }
 }

@@ -85,8 +85,9 @@ public class GameManager : MonoBehaviour
             } else {
                 Debug.LogError($"{newItemName} - is invalid item");
             }
+            GameMenu.instance.LoadItems();
         }
-        GameMenu.instance.LoadItems();
+        
     }
 
     public void RemoveItem(string newItemName)
@@ -100,13 +101,13 @@ public class GameManager : MonoBehaviour
                 {
                     itemsHeld[foundItemIndex] = "";
                 }
-                itemsInventory[foundItemIndex]++;
+                itemsInventory[foundItemIndex]--;
             }
             else
             {
                 Debug.LogError($"{newItemName} - is invalid item");
             }
+            GameMenu.instance.LoadItems();
         }
-        GameMenu.instance.LoadItems();
     }
 }
