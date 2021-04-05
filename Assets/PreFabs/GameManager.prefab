@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91bc7449eeb4ed846b7ebeee3de3c4dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charName: Woody
+  charName: TIMMAH
   playerLevel: 3
   currentExp: 543
   expToNextLevel: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -101,6 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4362758264042457387}
   - component: {fileID: 4362758264042457386}
+  - component: {fileID: 4285907573728165609}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -145,6 +146,49 @@ MonoBehaviour:
   gameMenuOpen: 0
   dialogActive: 0
   fadingBetweenAreas: 0
+  shopActive: 0
+  itemsHeld:
+  - 
+  - 
+  - 
+  - 
+  - Health Potion
+  - 
+  - 
+  - Iron Sword
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Leather Armor
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Mana Potion
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  itemsInventory: 00000000000000000000000000000000050000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000090000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   referenceItems:
   - {fileID: 4922039782001738897, guid: 814633b1bafceac4fba0c29f4dc20ce9, type: 3}
   - {fileID: 5354200821736635047, guid: 4d5226346b885b149b89d93e904f01c1, type: 3}
@@ -152,6 +196,26 @@ MonoBehaviour:
   - {fileID: 7228136262713241538, guid: 33866c1c43401164f9a0b09d18c697ba, type: 3}
   - {fileID: 1746565940764786032, guid: b4253aaca7d49c44d8e84436b6c9c4c6, type: 3}
   - {fileID: 8426547866752825678, guid: fc6cff3374668064a9ca0bc39fd79094, type: 3}
+  currentGold: 0
+--- !u!114 &4285907573728165609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4362758264042457385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4888d5214072004bba90ac2cf69dfed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questMarkerNames:
+  - quest test
+  - Kill the King
+  - Poach the Porker
+  - Cut the Cucumber
+  - Shake the Sloth
+  questMarkersComplete: 
 --- !u!1 &4362758264259967225
 GameObject:
   m_ObjectHideFlags: 0

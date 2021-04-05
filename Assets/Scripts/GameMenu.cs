@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class GameMenu : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class GameMenu : MonoBehaviour
     public Text goldText;
 
     public static GameMenu instance;
+    public string mainMenuName;
+
 
     // Start is called before the first frame update
     void Start()
@@ -198,5 +201,26 @@ public class GameMenu : MonoBehaviour
     {
         activeItem.Use(selectChar);
         CloseItemCharChoice();
+    }
+
+    public void SaveGame()
+    {
+        GameManager.instance.SaveData();
+        QuestManager.instance.SaveQuestData();
+    }
+
+    public void PlayButtonSound()
+    {
+        AudioManager.instance.PlaySoundEffect(4);
+    }
+
+    public void QuitGame()
+    {
+
+        SceneManager.LoadScene(mainMenuName);
+        Destroy(GameManager.instance.gameObject);
+        Destroy(PlayerController.instance.gameObject);
+        Destroy(AudioManager.instance.gameObject);
+        Destroy(gameObject);
     }
 }

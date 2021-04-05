@@ -13,6 +13,10 @@ public class CameraController : MonoBehaviour
 
     private float halfHeight;
     private float halfWidth;
+
+    public int musicToPlay;
+    private bool musicStarted;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,13 +27,7 @@ public class CameraController : MonoBehaviour
         halfWidth = halfHeight * Camera.main.aspect;
 
         bottomLeftLimit = currentMap.localBounds.min + new Vector3(halfWidth, halfHeight, 0);
-        //bottomLeftLimit = currentMap.localBounds.min;
-        //bottomLeftLimit.x += halfWidth;
-        //bottomLeftLimit.y += halfHeight;
         topRightLimit = currentMap.localBounds.max + new Vector3(-halfWidth, -halfHeight, 0);
-        //topRightLimit = currentMap.localBounds.max;
-        //topRightLimit.x += -halfWidth;
-        //topRightLimit.y += -halfHeight;
         PlayerController.instance.SetBounds(currentMap.localBounds.min, currentMap.localBounds.max);
     }
 
@@ -40,5 +38,9 @@ public class CameraController : MonoBehaviour
         //keep camera in bounds
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, bottomLeftLimit.x, topRightLimit.x), Mathf.Clamp(transform.position.y, bottomLeftLimit.y, topRightLimit.y), transform.position.z);
+        if(!musicStarted){
+            musicStarted = true;
+            AudioManager.instance.PlayMusic(musicToPlay);
+        }
     }
 }
