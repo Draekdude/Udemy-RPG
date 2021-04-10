@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\BattleChar.cs" />
     <Compile Include="Assets\Scripts\BattleManager.cs" />
+    <Compile Include="Assets\Scripts\BattleMove.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\CharStats.cs" />
     <Compile Include="Assets\Scripts\DialogActivator.cs" />

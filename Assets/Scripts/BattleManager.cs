@@ -21,6 +21,8 @@ public class BattleManager : MonoBehaviour
 
     public GameObject uiButtonsHolder;
 
+    public List<BattleMove> movesList;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -138,11 +140,11 @@ public class BattleManager : MonoBehaviour
     public void UpdateBattle()
     {
         var players = activeBattlers.Where(a => a.isPlayer).ToList();
-        int deadPlayers = players.Where(p => p.currentHp == 0).Count();
-        bool isAllPlayersDead = players.Where(p => p.currentHp == 0).Count() == deadPlayers && deadPlayers != 0;
+        int deadPlayers = players.Where(p => p.currentHp <= 0).Count();
+        bool isAllPlayersDead = players.Where(p => p.currentHp <= 0).Count() == deadPlayers && deadPlayers != 0;
         var enemies = activeBattlers.Where(a => a.isPlayer == false).ToList();
-        int deadEnemies = enemies.Where(p => p.currentHp == 0).Count();
-        bool isAllEnemiesDead = enemies.Where(p => p.currentHp == 0).Count() == deadEnemies && deadEnemies != 0;
+        int deadEnemies = enemies.Where(p => p.currentHp <= 0).Count();
+        bool isAllEnemiesDead = enemies.Where(p => p.currentHp <= 0).Count() == deadEnemies && deadEnemies != 0;
 
 
         if (isAllEnemiesDead || isAllPlayersDead)
@@ -172,8 +174,24 @@ public class BattleManager : MonoBehaviour
     public void EnemyAttack()
     {
         List<BattleChar> players = activeBattlers.Where(a => a.isPlayer && a.currentHp > 0).ToList();
-        BattleChar attackedPlayer = players[Random.Range(0, players.Count)];
-        attackedPlayer.currentHp -= 5;
+        BattleChar defendingChar = players[Random.Range(0, players.Count)];
+        //character attack
+        int selectAttack = Random.Range(0, activeBattlers[currentTurn].movesAvailable.Length);
+        BattleMove battleMove = movesList.Where(m => m.moveName == activeBattlers[currentTurn].movesAvailable[selectAttack]).FirstOrDefault();
+        Instantiate(battleMove.theEffect, defendingChar.transform.position, defendingChar.transform.rotation);
+        DealDamage(defendingChar, battleMove.movePower);
+    }
 
+    public void DealDamage(BattleChar defendingChar, int movePower)
+    {
+        float attackPower = activeBattlers[currentTurn].strength + activeBattlers[currentTurn].weaponPower;
+        float defendPower = defendingChar.defense + defendingChar.armorPower;
+        if(defendPower == 0)
+        {
+            defendPower = 1;
+        }
+        int damage = Mathf.RoundToInt(attackPower / defendPower * movePower * Random.Range(.9f, 1.1f));
+        Debug.Log($"{activeBattlers[currentTurn].charName} is dealing {damage} damage to {defendingChar.charName}");
+        defendingChar.currentHp -= damage;
     }
 }
