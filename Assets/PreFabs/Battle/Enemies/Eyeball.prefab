@@ -96,7 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer: 0
   movesAvailable:
-  - Flame
+  - Fire
   - Ice
   charName: Eyeball
   currentHp: 250

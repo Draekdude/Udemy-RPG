@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
+using System;
+using Random = UnityEngine.Random;
 
 public class BattleManager : MonoBehaviour
 {
@@ -22,6 +25,21 @@ public class BattleManager : MonoBehaviour
     public GameObject uiButtonsHolder;
 
     public List<BattleMove> movesList;
+
+    public GameObject enemyAttackEffect;
+
+    public DamageNumber damageNumber;
+
+    public List<Text> playerName, playerHp, playerMp;
+
+    public GameObject targetMenu;
+    public List<BattleTargetButton> targetButtons;
+
+    public GameObject magicMenu;
+
+    public List<BattleMagicSelect> magicButtons;
+
+    public BattleNotification battleNote;
 
     // Start is called before the first frame update
     void Start()
@@ -71,6 +89,7 @@ public class BattleManager : MonoBehaviour
             AddEnemies(enemiesToSpawn);
             turnWaiting = true;
             currentTurn = Random.Range(0, activeBattlers.Count);
+            UpdateUIStats();
         }
     }
 
@@ -141,10 +160,10 @@ public class BattleManager : MonoBehaviour
     {
         var players = activeBattlers.Where(a => a.isPlayer).ToList();
         int deadPlayers = players.Where(p => p.currentHp <= 0).Count();
-        bool isAllPlayersDead = players.Where(p => p.currentHp <= 0).Count() == deadPlayers && deadPlayers != 0;
+        bool isAllPlayersDead = players.Count == deadPlayers;
         var enemies = activeBattlers.Where(a => a.isPlayer == false).ToList();
         int deadEnemies = enemies.Where(p => p.currentHp <= 0).Count();
-        bool isAllEnemiesDead = enemies.Where(p => p.currentHp <= 0).Count() == deadEnemies && deadEnemies != 0;
+        bool isAllEnemiesDead = enemies.Count == deadEnemies;
 
 
         if (isAllEnemiesDead || isAllPlayersDead)
@@ -159,6 +178,16 @@ public class BattleManager : MonoBehaviour
             battleScene.SetActive(false);
             GameManager.instance.battleActive = false;
             battleActive = false;
+        } else
+        {
+            while (activeBattlers[currentTurn].currentHp == 0)
+            {
+                currentTurn++;
+                if(currentTurn >= activeBattlers.Count)
+                {
+                    currentTurn = 0;
+                }
+            }
         }
     }
 
@@ -169,6 +198,7 @@ public class BattleManager : MonoBehaviour
         EnemyAttack();
         yield return new WaitForSeconds(1f);
         NextTurn();
+        UpdateUIStats();
     }
 
     public void EnemyAttack()
@@ -179,6 +209,7 @@ public class BattleManager : MonoBehaviour
         int selectAttack = Random.Range(0, activeBattlers[currentTurn].movesAvailable.Length);
         BattleMove battleMove = movesList.Where(m => m.moveName == activeBattlers[currentTurn].movesAvailable[selectAttack]).FirstOrDefault();
         Instantiate(battleMove.theEffect, defendingChar.transform.position, defendingChar.transform.rotation);
+        Instantiate(enemyAttackEffect, activeBattlers[currentTurn].transform.position, activeBattlers[currentTurn].transform.rotation);
         DealDamage(defendingChar, battleMove.movePower);
     }
 
@@ -193,5 +224,83 @@ public class BattleManager : MonoBehaviour
         int damage = Mathf.RoundToInt(attackPower / defendPower * movePower * Random.Range(.9f, 1.1f));
         Debug.Log($"{activeBattlers[currentTurn].charName} is dealing {damage} damage to {defendingChar.charName}");
         defendingChar.currentHp -= damage;
+        if (defendingChar.currentHp < 0)
+        {
+            defendingChar.currentHp = 0;
+        }
+        Instantiate(damageNumber, defendingChar.transform.position, defendingChar.transform.rotation).SetDamage(damage);
+        UpdateUIStats();
+    }
+
+     public void UpdateUIStats()
+    {
+        int index = 0;
+        playerName.ForEach(p => UpdateLabels(index++));
+    }
+
+    private void UpdateLabels(int index)
+    {
+        if (activeBattlers.Count > index && activeBattlers[index].isPlayer)
+        {
+            BattleChar playerChar = activeBattlers[index];
+            playerName[index].gameObject.SetActive(true);
+            playerName[index].text = playerChar.charName;
+            playerHp[index].text = $"{playerChar.currentHp.ToString()}/{playerChar.maxHp}";
+            playerMp[index].text = $"{playerChar.currentMp.ToString()}/{playerChar.maxMp}";
+
+        } else
+        {
+            playerName[index].gameObject.SetActive(false);
+        }
+    }
+
+    public void PlayerAttack(string moveName, int selectedTarget)
+    {
+        List<BattleChar> enemies = activeBattlers.Where(a => a.isPlayer == false).ToList();
+        BattleChar defendingEnemy = enemies[selectedTarget];
+        BattleMove battleMove = movesList.Where(m => m.moveName == moveName).FirstOrDefault();
+        Instantiate(battleMove.theEffect, defendingEnemy.transform.position, defendingEnemy.transform.rotation);
+
+        Instantiate(enemyAttackEffect, activeBattlers[currentTurn].transform.position, activeBattlers[currentTurn].transform.rotation);
+        DealDamage(defendingEnemy, battleMove.movePower);
+
+        uiButtonsHolder.SetActive(false);
+        targetMenu.SetActive(false);
+        NextTurn();
+    }
+
+    public void OpenTargetMenu(string moveName)
+    {
+        targetMenu.SetActive(true);
+        var enemies = activeBattlers.Where(a => a.isPlayer == false).ToList();
+        targetButtons.ForEach(t => t.gameObject.SetActive(false));
+        int index = 0;
+        enemies.ForEach(e => {
+            targetButtons[index].gameObject.SetActive(true);
+            targetButtons[index].moveName = moveName;
+            targetButtons[index].selectedTarget = index;
+            targetButtons[index].targetName.text = e.charName;
+            index++;
+        });
+    }
+
+    public void OpenMagicMenu()
+    {
+        magicMenu.SetActive(true);
+        for (int i = 0; i < magicButtons.Count; i++)
+        {
+            if (activeBattlers[currentTurn].movesAvailable.Length > i)
+            {
+                magicButtons[i].gameObject.SetActive(true);
+                magicButtons[i].spellName = activeBattlers[currentTurn].movesAvailable[i];
+                magicButtons[i].nameText.text = magicButtons[i].spellName;
+                var move = movesList.Where(m => m.moveName == magicButtons[i].spellName).FirstOrDefault();
+                magicButtons[i].costText.text = move.moveCost.ToString();
+                magicButtons[i].spellCost = move.moveCost;
+            } else
+            {
+                magicButtons[i].gameObject.SetActive(false);
+            }
+        }
     }
 }

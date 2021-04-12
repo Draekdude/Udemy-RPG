@@ -97,7 +97,7 @@ MonoBehaviour:
   isPlayer: 0
   movesAvailable:
   - Slash
-  - Flame
+  - Fire
   charName: Skeleton
   currentHp: 250
   maxHp: 250
