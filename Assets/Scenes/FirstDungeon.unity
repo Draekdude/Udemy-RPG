@@ -13329,7 +13329,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 222744199}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 229083811}
+        m_MethodName: OpenItemMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &222744199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13549,6 +13560,7 @@ MonoBehaviour:
   currentTurn: 0
   turnWaiting: 0
   uiButtonsHolder: {fileID: 1577251918}
+  statsMenu: {fileID: 2134930785}
   movesList:
   - moveName: Slash
     movePower: 40
@@ -13612,6 +13624,7 @@ MonoBehaviour:
   - {fileID: 1208513386}
   - {fileID: 920596474}
   battleNote: {fileID: 1705352507}
+  chanceToFlee: 30
 --- !u!4 &229083812
 Transform:
   m_ObjectHideFlags: 0
@@ -23702,7 +23715,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1906101938}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 229083811}
+        m_MethodName: Flee
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1906101938
 MonoBehaviour:
   m_ObjectHideFlags: 0

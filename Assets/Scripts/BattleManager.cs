@@ -23,6 +23,7 @@ public class BattleManager : MonoBehaviour
     public bool turnWaiting;
 
     public GameObject uiButtonsHolder;
+    public GameObject statsMenu;
 
     public List<BattleMove> movesList;
 
@@ -40,6 +41,8 @@ public class BattleManager : MonoBehaviour
     public List<BattleMagicSelect> magicButtons;
 
     public BattleNotification battleNote;
+
+    public int chanceToFlee = 30;
 
     // Start is called before the first frame update
     void Start()
@@ -60,7 +63,12 @@ public class BattleManager : MonoBehaviour
             if (turnWaiting)
             {
                 bool isPlayer = activeBattlers[currentTurn].isPlayer;
-                uiButtonsHolder.SetActive(isPlayer);
+                if (Shop.instance.itemMenu.activeInHierarchy == false)
+                {
+                    uiButtonsHolder.SetActive(isPlayer);
+                    statsMenu.SetActive(true);
+                }
+                
                 if (!isPlayer)
                 {
                     //enemy should attack
@@ -145,6 +153,18 @@ public class BattleManager : MonoBehaviour
         battleChar.armorPower = charStats.armorPower;
     }
 
+    public void UpdateEndBattleStats(CharStats charStats, BattleChar battleChar)
+    {
+        charStats.currentHp = battleChar.currentHp;
+        charStats.maxHp = battleChar.maxHp;
+        charStats.currentMp = battleChar.currentMp;
+        charStats.maxMp = battleChar.maxMp;
+        charStats.strength = battleChar.strength;
+        charStats.defense = battleChar.defense;
+        charStats.weaponPower = battleChar.weaponPower;
+        charStats.armorPower = battleChar.armorPower;
+    }
+
     public void NextTurn()
     {
         currentTurn++;
@@ -158,12 +178,20 @@ public class BattleManager : MonoBehaviour
 
     public void UpdateBattle()
     {
-        var players = activeBattlers.Where(a => a.isPlayer).ToList();
-        int deadPlayers = players.Where(p => p.currentHp <= 0).Count();
-        bool isAllPlayersDead = players.Count == deadPlayers;
+        var players = activeBattlers.Where(a => a.isPlayer).ToList(); 
+        var deadPlayers = players.Where(p => p.currentHp <= 0).ToList();
+        deadPlayers.ForEach(d => d.sprite.sprite = d.deadSprite);
+        players.Where(p => p.currentHp > 0).ToList().ForEach(a => a.sprite.sprite = a.livingSprite);
+        bool isAllPlayersDead = players.Count == deadPlayers.Count;
+
+
         var enemies = activeBattlers.Where(a => a.isPlayer == false).ToList();
-        int deadEnemies = enemies.Where(p => p.currentHp <= 0).Count();
-        bool isAllEnemiesDead = enemies.Count == deadEnemies;
+        var deadEnemies = enemies.Where(p => p.currentHp <= 0).ToList();
+        deadEnemies.ForEach(d => {
+            d.EnemyFade();
+            d.isDead = true;
+        });
+        bool isAllEnemiesDead = enemies.Count == deadEnemies.Count;
 
 
         if (isAllEnemiesDead || isAllPlayersDead)
@@ -171,13 +199,14 @@ public class BattleManager : MonoBehaviour
             if (isAllEnemiesDead)
             {
                 //end battle in victory
+                StartCoroutine(EndBattleCo());
             } else
             {
                 //end battle in defeat
             }
-            battleScene.SetActive(false);
-            GameManager.instance.battleActive = false;
-            battleActive = false;
+            //battleScene.SetActive(false);
+            //GameManager.instance.battleActive = false;
+            //battleActive = false;
         } else
         {
             while (activeBattlers[currentTurn].currentHp == 0)
@@ -276,10 +305,13 @@ public class BattleManager : MonoBehaviour
         targetButtons.ForEach(t => t.gameObject.SetActive(false));
         int index = 0;
         enemies.ForEach(e => {
-            targetButtons[index].gameObject.SetActive(true);
-            targetButtons[index].moveName = moveName;
-            targetButtons[index].selectedTarget = index;
-            targetButtons[index].targetName.text = e.charName;
+            if(e.isDead == false)
+            {
+                targetButtons[index].gameObject.SetActive(true);
+                targetButtons[index].moveName = moveName;
+                targetButtons[index].selectedTarget = index;
+                targetButtons[index].targetName.text = e.charName;
+            }
             index++;
         });
     }
@@ -302,5 +334,59 @@ public class BattleManager : MonoBehaviour
                 magicButtons[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    public void OpenItemMenu()
+    {
+        uiButtonsHolder.SetActive(false);
+        statsMenu.SetActive(false);
+        Shop.instance.OpenItemMenu();
+    }
+
+    public void Flee()
+    { 
+        int fleeSuccess = Random.Range(0, 100);
+        if (fleeSuccess < chanceToFlee)
+        {
+            StartCoroutine(EndBattleCo());
+            //battleActive = false;
+            //battleScene.SetActive(false);
+        } else
+        {
+            NextTurn();
+            battleNote.theText.text = "Couldn't Escape!";
+            battleNote.Activate();
+        }
+    }
+
+    public IEnumerator EndBattleCo()
+    {
+        battleActive = false;
+        uiButtonsHolder.SetActive(false);
+        targetMenu.SetActive(false);
+        Shop.instance.itemMenu.SetActive(false);
+        magicMenu.SetActive(false);
+
+        yield return new WaitForSeconds(.5f);
+        UIFade.instance.FadeToBlack();
+        yield return new WaitForSeconds(1.5f);
+
+        EndBattleUpdateChars();
+
+        UIFade.instance.FadeFromBlack();
+        battleScene.SetActive(false);
+        activeBattlers.Clear();
+        currentTurn = 0;
+        GameManager.instance.battleActive = false;
+        AudioManager.instance.PlayMusic(FindObjectOfType<CameraController>().musicToPlay);
+    }
+
+    public void EndBattleUpdateChars()
+    {
+        activeBattlers.Where(a=> a.isPlayer).ToList().ForEach(b => {
+            var player = GameManager.instance.playersStats.Where(p => p.charName == b.charName).FirstOrDefault();
+            UpdateEndBattleStats(player, b);
+        });
+        activeBattlers.ForEach(a => Destroy(a.gameObject));
     }
 }

@@ -11,6 +11,7 @@ public class Shop : MonoBehaviour
     public GameObject shopMenu;
     public GameObject buyMenu;
     public GameObject sellMenu;
+    public GameObject itemMenu;
 
     public Text goldText;
 
@@ -18,10 +19,12 @@ public class Shop : MonoBehaviour
 
     public List<ItemButton> buyItemButtons;
     public List<ItemButton> sellItemButtons;
+    public List<ItemButton> useItemButtons;
 
     public Item selectedItem;
     public Text buyItemName, buyItemDesc, buyItemValue;
     public Text sellItemName, sellItemDesc, sellItemValue;
+    public Text useItemName, useItemDesc;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +72,22 @@ public class Shop : MonoBehaviour
         sellItemButtons.First().Press();
     }
 
+    public void OpenItemMenu()
+    {
+        buyMenu.SetActive(false);
+        sellMenu.SetActive(false);
+        itemMenu.SetActive(true);
+        //GameManager.instance.SortItems();
+        int index = 0;
+        useItemButtons.ForEach(i => SetUpButton(index++, i, GameManager.instance.itemsHeld.ToArray(), true));
+        useItemButtons.First().Press();
+    }
+
+    public void CloseItemMenu()
+    {
+        itemMenu.SetActive(false);
+    }
+
     public ItemButton SetUpButton(int index, ItemButton itemButton, string[] items, bool isSell)
     {
         if (items[index] != "")
@@ -89,6 +108,13 @@ public class Shop : MonoBehaviour
             itemButton.amountText.text = "";
         }
         return itemButton;
+    }
+
+    public void SelectUseItem(Item item)
+    {
+        selectedItem = item;
+        useItemName.text = selectedItem.itemName;
+        useItemDesc.text = selectedItem.description;
     }
 
     public void SelectBuyItem(Item item)
@@ -124,6 +150,15 @@ public class Shop : MonoBehaviour
             goldText.text = GameManager.instance.currentGold.ToString() + "g";
             int index = 0;
             sellItemButtons.ForEach(i => SetUpButton(index++, i, GameManager.instance.itemsHeld.ToArray(), true));
+        }
+    }
+
+    public void UseItem()
+    {
+        if (selectedItem != null && GameManager.instance.RemoveItem(selectedItem.itemName))
+        {
+            int currentPlayer = BattleManager.instance.currentTurn;
+            selectedItem.Use(currentPlayer, true);
         }
     }
 }

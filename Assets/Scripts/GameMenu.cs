@@ -199,7 +199,7 @@ public class GameMenu : MonoBehaviour
 
     public void UseItem(int selectChar)
     {
-        activeItem.Use(selectChar);
+        activeItem.Use(selectChar, false);
         CloseItemCharChoice();
     }
 

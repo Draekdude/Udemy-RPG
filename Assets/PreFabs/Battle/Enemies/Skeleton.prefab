@@ -108,3 +108,7 @@ MonoBehaviour:
   weaponPower: 8
   armorPower: 8
   isDead: 0
+  sprite: {fileID: 7623091631432834238}
+  deadSprite: {fileID: 0}
+  livingSprite: {fileID: 0}
+  fadeSpeed: 1

@@ -33,9 +33,14 @@ public class Item : MonoBehaviour
         
     }
 
-    public void Use(int character)
+    public void Use(int character, bool isInBattle)
     {
         CharStats selectedChar = GameManager.instance.playersStats[character];
+        if (isInBattle)
+        {
+            selectedChar.currentHp = BattleManager.instance.activeBattlers[character].currentHp;
+            selectedChar.currentMp = BattleManager.instance.activeBattlers[character].currentMp;
+        }
         if (isItem)
         {
             if (affectHp)
@@ -78,5 +83,10 @@ public class Item : MonoBehaviour
             selectedChar.armorPower = armorStrength;
         }
         GameManager.instance.RemoveItem(itemName);
+        if (isInBattle)
+        {
+            BattleManager.instance.UpdateStats(BattleManager.instance.activeBattlers[character], selectedChar);
+            BattleManager.instance.UpdateUIStats();
+        }
     }
 }

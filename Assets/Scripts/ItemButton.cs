@@ -30,6 +30,11 @@ public class ItemButton : MonoBehaviour
             GameMenu.instance.SelectItem(item);
         }
 
+        if (Shop.instance.itemMenu.activeInHierarchy)
+        {
+            Shop.instance.SelectUseItem(GameManager.instance.GetItemDetails(GameManager.instance.itemsHeld[buttonValue]));
+        }
+
         if (Shop.instance.shopMenu.activeInHierarchy)
         {
             if (Shop.instance.buyMenu.activeInHierarchy)
@@ -40,6 +45,7 @@ public class ItemButton : MonoBehaviour
             {
                 Shop.instance.SelectSellItem(GameManager.instance.GetItemDetails(GameManager.instance.itemsHeld[buttonValue]));
             }
+
         }
     }
 }
