@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 using System;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -43,6 +44,8 @@ public class BattleManager : MonoBehaviour
     public BattleNotification battleNote;
 
     public int chanceToFlee = 30;
+
+    public string gameOverScene;
 
     // Start is called before the first frame update
     void Start()
@@ -203,10 +206,8 @@ public class BattleManager : MonoBehaviour
             } else
             {
                 //end battle in defeat
+                StartCoroutine(GameOverCo());
             }
-            //battleScene.SetActive(false);
-            //GameManager.instance.battleActive = false;
-            //battleActive = false;
         } else
         {
             while (activeBattlers[currentTurn].currentHp == 0)
@@ -349,8 +350,6 @@ public class BattleManager : MonoBehaviour
         if (fleeSuccess < chanceToFlee)
         {
             StartCoroutine(EndBattleCo());
-            //battleActive = false;
-            //battleScene.SetActive(false);
         } else
         {
             NextTurn();
@@ -388,5 +387,15 @@ public class BattleManager : MonoBehaviour
             UpdateEndBattleStats(player, b);
         });
         activeBattlers.ForEach(a => Destroy(a.gameObject));
+    }
+
+    public IEnumerator GameOverCo()
+    {
+        battleActive = false;
+        battleScene.SetActive(false);
+        //GameManager.instance.battleActive = false;
+        UIFade.instance.FadeToBlack();
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(gameOverScene);
     }
 }

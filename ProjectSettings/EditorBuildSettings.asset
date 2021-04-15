@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FirstDungeon.unity
     guid: cf3f0f2da20bc6f48a7642f6632f76ed
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: e985b013a9dbefb44a159c5d89952e46
   m_configObjects: {}
