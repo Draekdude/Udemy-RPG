@@ -47,6 +47,10 @@ public class BattleManager : MonoBehaviour
 
     public string gameOverScene;
 
+    private bool fleeing = false;
+    public int rewardXP;
+    public List<string> rewardItems;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -345,7 +349,8 @@ public class BattleManager : MonoBehaviour
     }
 
     public void Flee()
-    { 
+    {
+        fleeing = true;
         int fleeSuccess = Random.Range(0, 100);
         if (fleeSuccess < chanceToFlee)
         {
@@ -376,7 +381,14 @@ public class BattleManager : MonoBehaviour
         battleScene.SetActive(false);
         activeBattlers.Clear();
         currentTurn = 0;
-        GameManager.instance.battleActive = false;
+
+        if (fleeing)
+        {
+            GameManager.instance.battleActive = false;
+        } else
+        {
+            BattleReward.instance.OpenRewardScreen(rewardXP, rewardItems);
+        }
         AudioManager.instance.PlayMusic(FindObjectOfType<CameraController>().musicToPlay);
     }
 
@@ -393,7 +405,6 @@ public class BattleManager : MonoBehaviour
     {
         battleActive = false;
         battleScene.SetActive(false);
-        //GameManager.instance.battleActive = false;
         UIFade.instance.FadeToBlack();
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(gameOverScene);
