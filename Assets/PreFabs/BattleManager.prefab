@@ -1515,8 +1515,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -532.4, y: -409.8}
-  m_SizeDelta: {x: -1064.7721, y: -819.533}
+  m_AnchoredPosition: {x: -532.4, y: -590.7}
+  m_SizeDelta: {x: -1064.7721, y: -1181.2839}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4242937826315870923
 CanvasRenderer:
@@ -3822,8 +3822,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -327.1, y: -409.8}
-  m_SizeDelta: {x: -654.24915, y: -819.533}
+  m_AnchoredPosition: {x: -327.1, y: -590.69}
+  m_SizeDelta: {x: -654.24915, y: -1181.3108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4242937826754356266
 CanvasRenderer:
@@ -4232,8 +4232,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 427.6, y: -409.8}
-  m_SizeDelta: {x: -855.2101, y: -819.533}
+  m_AnchoredPosition: {x: 427.6, y: -590.69}
+  m_SizeDelta: {x: -855.2101, y: -1181.3086}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4242937826840323071
 CanvasRenderer:
@@ -5590,6 +5590,7 @@ MonoBehaviour:
   - {fileID: 6111261073588347799, guid: c1bbf70c3ad0141448cfb3b44f328f58, type: 3}
   - {fileID: 4330953565674544783, guid: 37050fab2b19e9e458d70693e347160e, type: 3}
   - {fileID: 5701005479616253135, guid: bec3da0db4aa6a34a974daec981f9fa7, type: 3}
+  - {fileID: 3344884283926098560, guid: aa688be60d45649568181d01d8f63d24, type: 3}
   activeBattlers: []
   currentTurn: 0
   turnWaiting: 0
@@ -5664,6 +5665,7 @@ MonoBehaviour:
   rewardItems:
   - Wooden Sword
   - Iron Armor
+  cannotFlee: 0
 --- !u!1 &4242937827135970118
 GameObject:
   m_ObjectHideFlags: 0
@@ -6504,8 +6506,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -29.399902, y: -250.90002}
-  m_SizeDelta: {x: -58.720825, y: -501.76117}
+  m_AnchoredPosition: {x: -0.022277832, y: -590.68}
+  m_SizeDelta: {x: 0.034301758, y: -1181.3259}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4242937827270354647
 CanvasRenderer:

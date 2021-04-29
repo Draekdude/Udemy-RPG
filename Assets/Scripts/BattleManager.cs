@@ -51,6 +51,8 @@ public class BattleManager : MonoBehaviour
     public int rewardXP;
     public List<string> rewardItems;
 
+    public bool cannotFlee;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,7 +65,7 @@ public class BattleManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            BattleStart(new string[] { "Eyeball", "Spider", "Skeleton" });
+            BattleStart(new string[] { "Eyeball", "Spider", "Skeleton" }, false);
         }
         if (battleActive)
         {
@@ -91,10 +93,11 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void BattleStart(string[] enemiesToSpawn)
+    public void BattleStart(string[] enemiesToSpawn, bool setCannotFlee)
     {
         if (!battleActive)
         {
+            cannotFlee = setCannotFlee;
             battleActive = true;
             GameManager.instance.battleActive = true;
             transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, transform.position.z);
@@ -350,17 +353,25 @@ public class BattleManager : MonoBehaviour
 
     public void Flee()
     {
-        fleeing = true;
-        int fleeSuccess = Random.Range(0, 100);
-        if (fleeSuccess < chanceToFlee)
+        if (cannotFlee)
         {
-            StartCoroutine(EndBattleCo());
+            battleNote.theText.text = "Cannot Flee This Battle!";
+            battleNote.Activate();
         } else
         {
-            NextTurn();
-            battleNote.theText.text = "Couldn't Escape!";
-            battleNote.Activate();
+            fleeing = true;
+            int fleeSuccess = Random.Range(0, 100);
+            if (fleeSuccess < chanceToFlee)
+            {
+                StartCoroutine(EndBattleCo());
+            } else
+            {
+                NextTurn();
+                battleNote.theText.text = "Couldn't Escape!";
+                battleNote.Activate();
+            }
         }
+
     }
 
     public IEnumerator EndBattleCo()
